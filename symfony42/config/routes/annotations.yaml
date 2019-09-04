@@ -1,0 +1,3 @@
+controllers:
+    resource: ../../src/HotelApiBundle/HotelController
+    type: annotation

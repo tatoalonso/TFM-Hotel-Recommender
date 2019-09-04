@@ -1,0 +1,89 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    locale: 'en'
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        bind:
+            $host: 'http://docker.sf4.local:9200,es:9200'
+            #$host: 'es:9200'
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        public: false
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\HotelApiBundle\Repository\ElasticSearchRepository\ElasticSearchClient: '@elasticsearch_client'
+
+    #ElasticSearchClient
+    elasticsearch_client:
+        class: App\HotelApiBundle\Repository\ElasticSearchRepository\ElasticSearchClient
+        arguments:
+            $host: 'http://docker.sf4.local:9200,es:9200'
+
+    elasticsearch_hotel_repository_decorated:
+        class: App\HotelApiBundle\Repository\ElasticSearchRepository\ElasticSearchHotelRepositoryDecorated
+        public: false
+        decorates: elasticsearch_hotel_repository
+        arguments:
+            $hotelRepository: '@elasticsearch_hotel_repository_decorated.inner'
+            $apiService: '@api_service'
+
+
+    elasticsearch_hotel_repository:
+        class: App\HotelApiBundle\Repository\ElasticSearchRepository\ElasticSearchHotelRepository
+        arguments:
+            $client: '@elasticsearch_client'
+
+    api_service:
+        class: App\HotelApiBundle\Services\ApiService\ApiTypes\GuzzleApiStayForLong
+
+    cache_service:
+            class: App\HotelApiBundle\Services\CacheService\CacheService
+
+    api_service_decorated:
+        class: App\HotelApiBundle\Services\ApiService\GuzzleApiRequestDecorated
+        public: false
+        decorates: api_service
+        arguments:
+            $apiRequest: '@api_service_decorated.inner'
+            $cacheService: '@cache_service'
+
+    App\:
+        resource: '../src/*'
+        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+
+    # controllers are imported separately to make sure services can be injected
+    # as action arguments even if you don't extend any base controller class
+    App\HotelApiBundle\HotelController\:
+        resource: '../src/HotelApiBundle/HotelController/'
+        tags: ['controller.service_arguments']
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+
+    App\HotelApiBundle\Repository\MySqlHotelRepository\:
+        resource: '../src/HotelApiBundle/Repository/MySqlHotelRepository.php'
+        arguments:
+            em: '@doctrine.orm.entity_manager'
+
+        #  App\HotelApiBundle\Repository\ElasticSearchRepository\ElasticSearchHotelRepository\:
+        #   resource: '../src/HotelApiBundle/Repository/ElasticSearchRepository/ElasticSearchHotelRepository.php'
+            #   arguments:
+        #      client: '@elasticsearch_client'
+
+    App\HotelApi\Domain\Utils\HotelUtils: '@elasticsearch_hotel_repository_decorated'
+
+
+
+
+
+
+
+
+
