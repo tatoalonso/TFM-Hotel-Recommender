@@ -6,6 +6,8 @@ namespace App\HotelApiBundle\Services\ApiService;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Psr7;
 
 
 /**
@@ -49,17 +51,23 @@ abstract class GuzzleApiRequest implements ApiRequestInterface
     {
         try {
 
-           //var_dump( http_build_query($parameters,"",","));die();
+
             $response = $this->client->request(
                 'POST',
                 $this->getUri(),
                 $this->getOptions($parameters));
 
+
             return json_decode($response->getBody(), true);
 
-        } catch (ClientException $e) {
-            echo ($e->getRequest());
-            echo ($e->getResponse());
+        } catch (RequestException $e) {
+            echo Psr7\str($e->getRequest());
+            if ($e->hasResponse()) {
+                echo Psr7\str($e->getResponse());
+
+
+            }
+            return [];
         }
 
     }

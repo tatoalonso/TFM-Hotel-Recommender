@@ -2,76 +2,67 @@
 
 namespace App\HotelApi\Domain;
 
-use Doctrine\ORM\Mapping as ORM;
-
-
-/**
- * @ORM\Entity(repositoryClass="App\HotelApiBundle\Repository\MySqlHotelRepository")
- */
 class Hotel
 {
+
     /**
-     * @ORM\Id()
-     * @ORM\Column(type="integer")
+     * @var string
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=70)
+     * @var string
      */
     private $name;
 
-
     /**
-     * @ORM\Column(type="smallint")
+     * @var int
      */
-
     private $stars;
 
     /**
-     * @ORM\Column(type="string", length=100)
+     * @var string
      */
     private $address;
 
     /**
-     * @ORM\Column(type="string" ,length=2)
+     * @var string
      */
     private $country;
 
     /**
-     * @ORM\Column(type="string", length=70)
+     * @var string
      */
     private $city;
 
     /**
-     * @ORM\Column(type="decimal", precision=10, scale=8)
+     * @var float
      */
     private $latitude;
 
     /**
-     * @ORM\Column(type="decimal", precision=11, scale=8)
+     * @var float
      */
     private $longitude;
 
     /**
-     * @ORM\Column(type="decimal", precision=2, scale=1)
+     * @var float
      */
     private $rating;
 
     /**
-     * @ORM\Column(type="json_array")
+     * @var string
      */
     private $subratings;
 
     /**
-     * @ORM\Column(type="json_array")
+     * @var string
      */
     private $trip_types;
 
     /**
-     * @ORM\Column(type="string", length=70)
+     * @var string
      */
-
     private $path;
 
 

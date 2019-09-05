@@ -66,7 +66,7 @@ class MappingHotels extends Command
 
         $arrayHotels = $this->listHotelsUseCase->listAll();
 
-        $hotel = $arrayHotels[112];
+        $hotel = $arrayHotels[111];
 
         var_dump($hotel);
 

@@ -78,17 +78,16 @@ class HotelController extends AbstractController
             ->add('5', CheckboxType::class, ['required' => false,])
             ->add('Max_Value', ChoiceType::class, [
                 'choices'  => [
-                    '0' => '0',
                     '1' => '1',
                     '2' => '2',
                     '3' => '3',
                     '4' => '4',
                     '5' => '5',
                 ],
+                'preferred_choices' => ['5']
             ])
             ->add('Min_Value', ChoiceType::class, [
                 'choices'  => [
-                    '0' => '0',
                     '1' => '1',
                     '2' => '2',
                     '3' => '3',
@@ -116,7 +115,10 @@ class HotelController extends AbstractController
                 ],
             ])
             ->add('child_ages_1', TextareaType::class,
-                ['required' => false,'help' => 'Introduce child´s ages separated by comma'])
+                ['required' => false,
+                 'help' => 'Introduce child´s ages separated by comma',
+                    'disabled'=> true,
+                    ])
             ->add('adult_2', ChoiceType::class, [
                 'choices'  => [
                     '0' => '0',
@@ -136,9 +138,13 @@ class HotelController extends AbstractController
                     '4' => '4',
 
                 ],
+                'disabled'=> true,
             ])
             ->add('child_ages_2', TextareaType::class,
-                ['required' => false,'help' => 'Introduce child´s ages separated by comma'])
+                ['required' => false,
+                    'help' => 'Introduce child´s ages separated by comma',
+                    'disabled'=> true,
+                ])
             ->add('send', SubmitType::class)
             ->getForm();
 

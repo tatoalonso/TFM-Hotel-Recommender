@@ -1,0 +1,43 @@
+App\HotelApi\Domain\Hotel:
+  type: entity
+  table: hotel
+  id:
+    id:
+      type: integer
+  fields:
+    name:
+      type: string
+      length: 70
+      unique: true
+    stars:
+      type: smallint
+    address:
+      type: string
+      length: 100
+    country:
+      type: string
+      length: 2
+    city:
+      type: string
+      length: 70
+    latitude:
+      type: decimal
+      precision: 10
+      scale: 8
+    longitude:
+      type: decimal
+      precision: 11
+      scale: 8
+    rating:
+      type: decimal
+      precision: 2
+      scale: 1
+    subratings:
+      type: json_array
+    trip_types:
+      type: json_array
+    path:
+      type: string
+      length: 70
+
+
