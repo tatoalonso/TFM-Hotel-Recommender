@@ -2,9 +2,26 @@
 
 namespace App\HotelApi\Domain;
 
+use mysql_xdevapi\Exception;
+
+/**
+ * Class Hotel
+ * @package App\HotelApi\Domain
+ */
 class Hotel
 {
-
+    /**
+     *
+     */
+    const  MAX_NAME_LENGTH_2 = 2;
+    /**
+     *
+     */
+    const  MAX_NAME_LENGTH_70 = 70;
+    /**
+     *
+     */
+    const  MAX_NAME_LENGTH_100 = 100;
     /**
      * @var string
      */
@@ -85,14 +102,14 @@ class Hotel
     {
 
         $this->id = $id;
-        $this->name =$name;
-        $this->stars=$stars;
-        $this->address= $address;
-        $this->country=$country;
-        $this->city=$city;
+        $this->name =$this->validateName($name);
+        $this->stars=$this->validateStars($stars);
+        $this->address= $this->validateAddress($address);
+        $this->country=$this->validateCountry($country);
+        $this->city=$this->validateCity($city);
         $this->latitude=$latitude;
         $this->longitude=$longitude;
-        $this->rating=$rating;
+        $this->rating=$this->validateRating($rating);
         $this->subratings=$subratings;
         $this->trip_types=$trip_types;
         $this->path=$path;
@@ -366,6 +383,139 @@ class Hotel
     public function stringToFloat(string $value ): float
     {
         return floatval($value);
+    }
+
+    /**
+     * @param string $name
+     * @return string
+     */
+    private function validateName(string $name): string
+    {
+
+        $name = filter_var($name, FILTER_SANITIZE_STRING);
+
+        if ($name === '') {
+
+            throw new Exception('name can not be empty');
+
+        }
+
+        $nameLength = mb_strlen($name);
+
+        if ($nameLength > self::MAX_NAME_LENGTH_70) {
+
+            throw new Exception('name too long');
+
+        }
+
+        return $name;
+
+    }
+
+    /**
+     * @param int $stars
+     * @return int
+     */
+    private function validateStars(int $stars): int
+    {
+        if ($stars > 5 || $stars < 1  ){
+
+            throw new Exception('Invalid Star value');
+
+        }
+
+        return $stars;
+
+    }
+
+    /**
+     * @param float $rating
+     * @return float
+     */
+    private function validateRating(float $rating): float
+    {
+        if ($rating > 5 || $rating < 1  ){
+
+            throw new Exception('Invalid Rating value');
+
+        }
+
+        return $rating;
+
+    }
+
+
+    /**
+     * @param string $address
+     * @return string
+     */
+    private function validateAddress(string $address): string
+    {
+
+        $address = filter_var($address, FILTER_SANITIZE_STRING);
+
+        if ($address === '') {
+
+            throw new Exception('address can not be empty');
+
+        }
+
+        $addressLength = mb_strlen($address);
+
+        if ($addressLength > self::MAX_NAME_LENGTH_100) {
+
+            throw new Exception('address too long');
+
+        }
+
+        return $address;
+
+    }
+
+    /**
+     * @param string $country
+     * @return string
+     */
+    private function validateCountry(string $country): string
+    {
+
+        $countryLength = mb_strlen($country);
+
+        if ($countryLength <> self::MAX_NAME_LENGTH_2) {
+
+            throw new Exception('Invalid country Length');
+
+        }
+
+        return $country;
+
+    }
+
+    /**
+     * @param string $city
+     * @return string
+     */
+    private function validateCity(string $city): string
+    {
+
+        $city = filter_var($city, FILTER_SANITIZE_STRING);
+
+        if ($city === '') {
+
+            throw new Exception('city can not be empty');
+
+        }
+
+        $cityLength = mb_strlen($city);
+
+        if ($cityLength > self::MAX_NAME_LENGTH_70) {
+
+            throw new Exception('city too long');
+
+        }
+
+        return $city;
+
     }
 
 
