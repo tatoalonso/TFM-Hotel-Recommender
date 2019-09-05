@@ -2,6 +2,8 @@
 
 namespace App\HotelApiBundle\HotelController;
 
+use App\HotelApi\Application\Dto\RoomDto;
+use App\HotelApi\Application\UseCases\CreateRoomUseCase;
 use App\HotelApi\Application\UseCases\ListHotelsFilteredUseCase;
 use App\HotelApiBundle\Repository\ElasticSearchRepository\Search\Filters\FactoryFilter;
 use App\HotelApiBundle\Repository\ElasticSearchRepository\Search\Matches\SearchFuzzyMatch;
@@ -150,6 +152,7 @@ class HotelController extends AbstractController
             $queryConditions = $this->buildSearchBoolQueryConditions($arrayRequest);
             $listHotelsFiltered = $listHotelsFilteredUseCase->listHotels($queryConditions);
             $twigHotelArray = $this->buildTwigArrayTemplate($listHotelsFiltered);
+            //var_dump($twigHotelArray['hotels'][0]);die();
 
 
             return $this->render('hotel/result.html.twig',$twigHotelArray);
@@ -239,6 +242,8 @@ class HotelController extends AbstractController
 
         foreach ($listHotelsFiltered as $key=>$hotel){
 
+            $rooms = $this->buildRoomArray($hotel['api']['room_types'][0]);
+
             $hotelFiltered =[
 
                     'name' => $hotel['elastic_search']['name'],
@@ -247,12 +252,15 @@ class HotelController extends AbstractController
                     'city' => $hotel['elastic_search']['city'],
                     'rating' => $hotel['elastic_search']['rating'],
                     'img' => $hotel['elastic_search']['path'],
-                    'subratings' =>$hotel['elastic_search']['subratings']
+                    'subratings' =>$hotel['elastic_search']['subratings'],
+                    'rooms' => $rooms
+
             ];
 
             $twigHotelArray[] =  $hotelFiltered ;
 
         }
+
 
        if (empty($twigHotelArray)){
              return ['hotels' => []];
@@ -260,9 +268,27 @@ class HotelController extends AbstractController
 
          return ['hotels' => $twigHotelArray ];
 
+     }
 
+     private function buildRoomArray(array $roomsTypes): array
+     {
+
+
+         foreach ($roomsTypes as $key => $room){
+
+
+             $type =key($room);
+             $roomDto = new RoomDto($type,$room[$type]['breakfast_included'],$room[$type]['final_rate'],$room[$type]['free_cancellation'],$room[$type]['currency'],$room[$type]['payment_type'],$room[$type]['rooms_left'],$room[$type]['url'] );
+             $createRoomUseCase = new CreateRoomUseCase();
+             $roomObject = $createRoomUseCase->createRoom($roomDto);
+             $arrayRooms[] = $roomObject->roomToArray();
+         }
+
+
+         return $arrayRooms;
 
      }
+
 
 
 }

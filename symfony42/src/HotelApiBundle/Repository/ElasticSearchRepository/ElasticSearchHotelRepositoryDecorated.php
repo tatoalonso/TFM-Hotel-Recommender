@@ -53,8 +53,6 @@ class ElasticSearchHotelRepositoryDecorated implements HotelUtils
 
         $listHotelsFiltered       = $this->hotelRepository->filterHotels($queryConditions);
 
-
-
         if (empty($listHotelsFiltered['hits']['hits'])){
             return [];
         }

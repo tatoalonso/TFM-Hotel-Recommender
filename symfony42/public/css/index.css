@@ -1,0 +1,24 @@
+
+
+#contenedor {
+    width: 1380px;
+    background-color: WhiteSmoke;
+    margin-left: 20px;
+
+}
+
+#row1 {
+    width: 1380px;
+    background-color: WhiteSmoke;
+    margin-left: 20px;
+    padding: 25px;
+
+}
+
+#h1 {
+    text-align: center;
+    height: 30px;
+    padding: 45px;
+    font-size: 250%;
+    margin-bottom: 50px;
+}

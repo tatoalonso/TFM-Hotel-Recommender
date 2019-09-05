@@ -1,8 +1,26 @@
-body  {background-color: black;
-        margin-top: -21px;
-        color:grey;
-        font-weight: 600;
-        line-height: 175%;
+.body  {background-color: black;
+    margin-top: -21px;
+    color:grey;
+    font-weight: 600;
+    line-height: 175%;
+}
+
+.hac2 {    ;
+    text-align: center;
+    height: 30px;
+    padding: 45px;
+    font-size: 250%;
+    color: white;
+    letter-spacing: 1px;
+    font-weight: 600;
+    margin-bottom:0px;
+    margin-top:0px;
+    margin-left: 20px;
+    background-color: black;
+    width: 1380px;
+
+
+
 }
 
 #name {
@@ -23,7 +41,16 @@ body  {background-color: black;
     margin-bottom: 10px;
     width: 180px;
     height: 150px;
+    transition: transform 1s ease-in-out;
 }
+
+.img_hotel:hover {
+
+    border-radius:50%;
+    transform: rotate(360deg);
+    transition-timing-function: ease;
+}
+
 
 #desc1 {
     text-align: center;
@@ -31,8 +58,76 @@ body  {background-color: black;
     padding: 20px;
     font-size: 100%;
     letter-spacing: 1px;
-    font-weight: 900;
     margin-bottom:0px;
     margin-top:0px;
     background-color: WhiteSmoke;
+}
+
+#desc2 {
+    text-align: center;
+    height: 150px;
+    padding: 20px;
+    font-size: 100%;
+    letter-spacing: 1px;
+    margin-bottom:0px;
+    margin-top:0px;
+
+}
+
+#wrapper {
+
+
+    margin: 25px;
+    background-color:white;
+    border-radius: 1%;
+
+}
+
+#room_name {
+    text-align:left;
+    height: 150px;
+    padding: 30px;
+    font-size: 85%;
+    font-weight: bold;
+    margin-right:20px;
+
+}
+
+#price {
+    text-align:center;
+    font-weight: bold;
+    margin-top:30px;
+
+}
+
+.sfl {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 15px;
+    padding: 10px;
+
+}
+
+#rowp {
+
+    padding:10px;
+
+}
+
+#payment {
+
+    padding:30px;
+
+}
+
+#break{
+
+    padding-top:15px;
+
+}
+
+#brecan{
+
+    margin-left:35px;
+
 }
